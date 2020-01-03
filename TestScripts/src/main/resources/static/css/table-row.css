@@ -1,0 +1,27 @@
+.editable-table {
+	font-size: 13px;
+	text-align: left;
+}
+.save-row-btn, .edit-row-btn, .delete-row-btn, .move-up, .move-down {
+	height: 22px;
+	padding: 0px 5px;
+	font-size: 12px;
+	line-height: 1.5;
+	border-radius: 0px;
+}
+
+.save-row-btn:hover, .edit-row-btn:hover, .delete-row-btn:hover, .move-up:hover, .move-down:hover {
+	background-color: #555555;
+	color: red;
+}
+
+.add-entity-btn {
+	float: right;
+	height: 30px;
+	font-weight: bold;
+	font-size: 12px;
+	text-shadow: none;
+	min-width: 100px;
+	border-radius: 50px;
+	line-height: 13px;
+}
