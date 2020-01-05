@@ -35,7 +35,8 @@
 				<td th:text="${student.emailAddress}"/>
 				<td>
 					<span class="btn-group btn-group-xs border-0" role="group">
-						<a th:href="@{find/(id=${student.id})}" class="btn btn-sm text-warning edit-row-btn" id="edit-row-btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a>
+						<!-- <a th:href="@{find/(id=${student.id})}" class="btn btn-sm text-warning edit-row-btn" id="edit-row-btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a> -->
+						<a onclick="fn(this)" th:attr="uuid=${student.id}" class="btn btn-sm text-warning edit-row-btn" id="edit-row-btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a>
 						<a th:href="@{delete/(id=${student.id})}" class="btn btn-sm text-danger delete-row-btn" id="delete-row-btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
 						<button class="btn text-info btn-sm move-up" id="move-up"><i class="fa fa-angle-up"></i></button>
 			            <button class="btn text-info btn-sm move-down" id="move-down"><i class="fa fa-angle-down"></i></button>
@@ -45,7 +46,9 @@
     	</tbody>
     </table>
     
+    <!-- <form th:action="@{/save/?id=1}" method="post"> -->
     <form th:action="@{/save}" method="post">
+    	<input type="hidden" id="id" name="id"/>
     	<input type="text" class="form" th:id="firstName" th:name="firstName"/>
     	<input type="text" class="form" id="lastName" name="lastName"/>
     	<input type="text" class="form" id="emailAddress" name="emailAddress"/>
@@ -83,5 +86,30 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/table-rows-up-down.js"></script>
 <!-- <script type="text/javascript" src="js/table-row-del-confirmation.js"></script> -->
+
+<script>
+function fn(obj) {
+	var uuid = parseInt($(obj).attr('uuid'));
+	
+	$.ajax({
+		type: "get",
+		url:"/find",
+		data:{id:uuid},
+		success: function(data){
+			console.log(data);
+			input0 = document.getElementById("id");
+			input1 = document.getElementById("firstName");
+			input2 = document.getElementById("lastName");
+			input3 = document.getElementById("emailAddress");
+			input0.value = data.id;
+			input1.value = data.firstName;
+			input2.value = data.lastName;
+			input3.value = data.emailAddress;			
+		},
+		dataType:"json",
+	});
+	
+}
+</script>
 </body>
 </html>
