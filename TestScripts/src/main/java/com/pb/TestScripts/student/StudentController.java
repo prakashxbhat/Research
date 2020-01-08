@@ -63,11 +63,8 @@ public class StudentController {
 			stu2.setSeq(tmp);
 			studentRepository.save(stu1);
 			studentRepository.save(stu2);
-
 		}
-
-
 		return "success";
 	}
-
+	
 }

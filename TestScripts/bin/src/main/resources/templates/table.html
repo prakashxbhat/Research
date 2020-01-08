@@ -35,10 +35,8 @@
 				<td th:text="${student.emailAddress}"/>
 				<td>
 					<span class="btn-group btn-group-xs border-0" role="group">
-						<!--<a th:href="@{find/(id=${student.id})}" class="btn btn-sm text-warning edit-row-btn" id="edit-row-btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a> -->
 						<a onclick="fn(this)" th:attr="uuid=${student.id}" class="btn btn-sm text-warning edit-row-btn" id="edit-row-btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fas fa-pencil-alt"></i></a>
-						<!-- Use <a> tag instead of <button> tag if delete confirmation model is not used -->
-						<button th:href="@{delete/(id=${student.id})}" class="btn btn-sm text-danger delete-row-btn" id="delete-row-btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></button>
+						<a th:href="@{delete/(id=${student.id})}" class="btn btn-sm text-danger delete-row-btn" id="delete-row-btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fas fa-trash-alt"></i></a>
 						<button class="btn text-info btn-sm move-up" id="move-up"><i class="fa fa-angle-up"></i></button>
 			            <button class="btn text-info btn-sm move-down" id="move-down"><i class="fa fa-angle-down"></i></button>
 					</span>
@@ -47,11 +45,11 @@
     	</tbody>
     </table>
     
-    <form th:action="@{/save}" method="post" id="inputFields">
+    <form th:action="@{/save}" method="post">
 		<input type="hidden" id="id" name="id"/>
-    	<input type="text" class="form" th:id="firstName" th:name="firstName" required/>
-    	<input type="text" class="form" id="lastName" name="lastName" required/>
-    	<input type="text" class="form" id="emailAddress" name="emailAddress" required/>
+    	<input type="text" class="form" th:id="firstName" th:name="firstName"/>
+    	<input type="text" class="form" id="lastName" name="lastName"/>
+    	<input type="text" class="form" id="emailAddress" name="emailAddress"/>
     	<input type="submit" class="btn btn-primary" value="save"/>
     </form>
     
@@ -59,7 +57,7 @@
 </div>
 
 <!-- Modal STARTS: Delete Confirmation -->
-<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmationModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -77,7 +75,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- Modal END: Delete Confirmation -->
 
 <!-- *************** END: CONTAINER *************** -->
@@ -85,14 +83,12 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/js/bootstrap.min.js" integrity="sha384-3qaqj0lc6sV/qpzrc1N5DC6i1VRn/HyX4qdPaiEFbn54VjQBEU341pvjz7Dv3n6P" crossorigin="anonymous"></script>
 <script type="text/javascript" src="js/table-row-up-down.js"></script>
-<script type="text/javascript" src="js/table-row-del-confirmation.js"></script>
-
+<!-- <script type="text/javascript" src="js/table-row-del-confirmation.js"></script> -->
 <script>
-
-	$(document).ready(function() {
-		// Hide or unhide input/update form.
-		document.getElementById('inputFields').style.display='none';
+	$(document).ready( function() {
+		//document.getElementById('inputFields').style.display='none';
 	});
+	
 	function fn(obj){
 		// an alternative way to get the user id, using DOM. without extra attribute.
 		//var td = $(obj).parents("span").parents("td").parents("tr").find("td");

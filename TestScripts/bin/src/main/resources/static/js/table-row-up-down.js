@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
     $('[data-toggle="tooltip"]').tooltip();
-    $('.move-up,.move-down,.move-top,.move-bottom').click (function(){
+    $('.save-row-btn,.edit-row-btn,.delete-row-btn,.move-up,.move-down,.move-top,.move-bottom').click (function(){
         var row = $(this).parents("tr:first");
         if ($(this).is(".move-up")) {
             var rowSelf = parseInt(row.find("td").eq(0).html());
