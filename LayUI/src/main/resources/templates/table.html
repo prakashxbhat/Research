@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>LayUI</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/css/layui.css"  media="all">
+</head>
+<body>
+
+<table class="layui-table" lay-data="{url:'userData', id:'test3'}" lay-filter="test3">
+    <thead>
+    <tr>
+        <th lay-data="{field:'id', sort: true, width:80}">ID</th>
+        <th lay-data="{field:'firstName', width:120, edit: 'text'}">firstname</th>
+        <th lay-data="{field:'lastName', edit: 'text', minWidth: 120}">lastname</th>
+        <th lay-data="{field:'emailAddress', width:250, edit: 'text'}">emailaddress</th>
+        <th lay-data="{fixed:'right', align:'center', toolbar: '#customedBar'}"></th>
+    </tr>
+
+    <script type="text/html" id="customedBar">
+        <a class="layui-btn layui-btn-xs" lay-event="moveup">move-up</a>
+        <a class="layui-btn layui-btn-xs" lay-event="movedown">move-down</a>
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">delete</a>
+    </script>
+    </thead>
+</table>
+
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script src="layui.js" charset="utf-8"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        //listen unit edit.
+        table.on('edit(test3)', function(obj){
+            var value = obj.value //get modified value
+                ,data = obj.data //get corresponding line's data
+                ,field = obj.field //get filed
+                ,id = data.id;  // get id
+            changeField(id, value, field);
+
+
+            layer.msg('[ID: '+ data.id +'] ' + field + ' field changed to：'+ value);
+        });
+
+        table.on('tool(test3)', function(obj){
+            var row = $(this).parents("tr:first");
+            if(obj.event === 'moveup'){
+                var prev = row.prev().find("td").eq(0).html();  //the data is string type and looks like this "<div class="layui-table-cell laytable-cell-1-0-0">2</div>"
+                prev = parseInt($(prev).html());
+                var self = row.find("td").eq(0).html();
+                self = parseInt($(self).html());
+                //console.log(prev, self);
+                if(isNaN(prev)){
+                    layer.msg("it's already at the top.");
+                }else{
+                    changeOrder(prev, self);
+                    row.insertBefore(row.prev());
+                }
+            }else if(obj.event === 'movedown'){
+                var next = row.next().find("td").eq(0).html();  //the data is string type and looks like this "<div class="layui-table-cell laytable-cell-1-0-0">2</div>"
+                next = parseInt($(next).html());
+                var self = row.find("td").eq(0).html();
+                self = parseInt($(self).html());
+                //console.log(self, next);
+                if(isNaN(next)){
+                    layer.msg("it's already at the bottom.");
+                }else{
+                    changeOrder(self, next);
+                    row.insertAfter(row.next());
+                }
+            }else if(obj.event === 'del'){
+                layer.confirm('confirm to del this line?', {btn: ['yes', 'no']},
+                    function(index){
+                        var objId = obj.data.id;
+                        delById(objId);
+                        obj.del();
+                        layer.close(index);
+                });
+            }
+        });
+    });
+
+    function changeOrder(var1, var2){
+        $.ajax({
+            type: "post",
+            url: "/changeOrder",
+            data:{
+                id1: var1,
+                id2: var2,
+            },
+            dataType: "json"
+        })
+    }
+
+    function delById(id){
+        $.ajax({
+            type: "delete",
+            url: "/delete",
+            data:{
+                id: id
+            },
+            dataType: "json"
+        })
+    }
+
+    function changeField(id, value, field){
+        $.ajax({
+            type: "post",
+            url: "/unitChange",
+            data:{
+                id: id,
+                value: value,
+                field: field
+            },
+            dataType: "json"
+        })
+    }
+</script>
+
+</body>
+</html>
